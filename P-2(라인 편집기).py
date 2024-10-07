@@ -76,7 +76,7 @@ if __name__ == "__main__":
 # 배열구조의 리스트를 이용한 라인 편집기 프로그램
 list = ArrayList(1000)
 while True :
-    command = input("[메뉴선택] i-입력, d-삭제, r-변경, p-출력, l-파일읽기, s-저장, q-종료 , m-빈도=> ")
+    command = input("[메뉴선택] i-입력, d-삭제, r-변경, p-출력, l-파일읽기, s-저장, m-빈도, q-종료 => ")
 
     if command == 'i' :
         pos = int( input("  입력행 번호: ") )
