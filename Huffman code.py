@@ -85,7 +85,7 @@ def huffman_codes(root):
 # 입력 메시지 및 유효성 검사
 def get_valid_input(codes):
     while True:
-        text = input("Please enter a word: ").strip()
+        text = input("Please a word: ").strip()
         if all(char in codes for char in text):
             return text
         else:
