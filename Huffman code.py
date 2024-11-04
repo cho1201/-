@@ -114,12 +114,12 @@ def main():
     
     # 허프만 인코딩 결과 출력
     encoded_text = ''.join(codes[char] for char in text)
-    print("Encoded Result Bit String:", encoded_text)
+    print("결과 비트열:", encoded_text)
     
     # 압축률 계산 및 출력
     encoded_bits, compression_rate = calculate_compression(text, codes)
-    print(f"Compression Rate: {compression_rate:.2f}%")
-    print(f"Original Bits: {len(text) * 8}, Encoded Bits: {encoded_bits}")
+    print(f"압축률: {compression_rate:.2f}%")
+    print(f"원본 비트: {len(text) * 8}, 인코드된 비트: {encoded_bits}")
 
 # 프로그램 실행
 main()
