@@ -34,6 +34,7 @@ def choose_vertex(dist, found):
     return min_pos
 
 def shortest_path_dijkstra(vertex, adj, start_idx):
+    global a
     vsize = len(vertex)
     dist = list(adj[start_idx])  # 시작 정점에서의 거리 초기화
     path = [start_idx] * vsize  # 경로 추적 배열
@@ -52,7 +53,7 @@ def shortest_path_dijkstra(vertex, adj, start_idx):
                 if dist[u] + adj[u][w] < dist[w]:  # 더 작은 경로 발견
                     dist[w] = dist[u] + adj[u][w]
                     path[w] = u  # 경로 갱신
-
+    a = dist[end_idx]
     return path, dist
 
 def print_shortest_path(path, start_idx, end_idx, vertex):
@@ -95,3 +96,4 @@ if __name__ == "__main__":
     print("Wanted : ",start," -> ",end)
     print("Shortest Path : ", end="")
     print_shortest_path(path, start_idx, end_idx, vertex)
+    print("Distance of the Shortest Path : ",a)
