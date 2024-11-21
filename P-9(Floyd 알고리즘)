@@ -1,0 +1,97 @@
+INF = 9999
+
+def printA(A):
+    vsize = len(A)
+    print("====================================")
+    for i in range(vsize):
+        for j in range(vsize):
+            if A[i][j] == INF:
+                print(" INF ", end='')
+            else:
+                print(f"{A[i][j]:4d} ", end='')
+        print("")
+
+def shortest_path_floyd(vertex, adj):
+    vsize = len(vertex)  # 정점의 개수
+
+    A = [list(row) for row in adj]  # 2차원 배열(리스트의 리스트)의 복사
+
+    for k in range(vsize):
+        for i in range(vsize):
+            for j in range(vsize):
+                if A[i][k] + A[k][j] < A[i][j]:
+                    A[i][j] = A[i][k] + A[k][j]
+        printA(A)  # 진행상황 출력용
+
+def choose_vertex(dist, found):
+    min_dist = INF
+    min_pos = -1
+
+    for i in range(len(dist)):
+        if dist[i] < min_dist and not found[i]:
+            min_dist = dist[i]
+            min_pos = i
+    return min_pos
+
+def shortest_path_dijkstra(vertex, adj, start_idx):
+    vsize = len(vertex)
+    dist = list(adj[start_idx])  # 시작 정점에서의 거리 초기화
+    path = [start_idx] * vsize  # 경로 추적 배열
+    found = [False] * vsize  # 방문 여부 배열
+
+    found[start_idx] = True
+    dist[start_idx] = 0  # 시작 정점의 거리는 0
+
+    for i in range(vsize):
+        print(f"Step {i + 1:2d}: {dist}")  # 단계별 dist[] 출력용
+        u = choose_vertex(dist, found)  # 최단 거리가 가장 작은 정점 선택
+        found[u] = True  # 방문 표시
+
+        for w in range(vsize):
+            if not found[w]:
+                if dist[u] + adj[u][w] < dist[w]:  # 더 작은 경로 발견
+                    dist[w] = dist[u] + adj[u][w]
+                    path[w] = u  # 경로 갱신
+
+    return path, dist
+
+def print_shortest_path(path, start_idx, end_idx, vertex):
+    reverse_path = []  # 역추적하여 경로 저장
+    current = end_idx
+    while current != start_idx:  # end에서 start까지 경로 추적
+        reverse_path.append(vertex[current])  # 경로에 현재 노드 추가
+        current = path[current]  # 이전 노드로 이동
+    reverse_path.append(vertex[start_idx])  # 시작점도 추가
+
+    # 경로를 뒤집어서 출력
+    print(" -> ".join(reversed(reverse_path)))
+
+if __name__ == "__main__":
+    # Shortest Path를 위한 Weighted Graph
+    vertex = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    weight = [
+        [0, 7, INF, INF, 3, 10, INF],
+        [7, 0, 4, 10, 2, 6, INF],
+        [INF, 4, 0, 2, INF, INF, INF],
+        [INF, 10, 2, 0, 11, 9, 4],
+        [3, 2, INF, 11, 0, 13, 5],
+        [10, 6, INF, 9, 13, 0, INF],
+        [INF, INF, INF, 4, 5, INF, 0]
+    ]
+    
+    start = input("Start Vertex: ")
+    end = input("End Vertex: ")
+
+    start_idx = vertex.index(start)
+    end_idx = vertex.index(end)
+
+    print("Shortest Path By Floyd's Algorithm")
+    shortest_path_floyd(vertex, weight)
+
+    path, dist = shortest_path_dijkstra(vertex, weight, start_idx)
+    print("=======RESULT=======")
+    print("Start Vertex:", start)
+    print("End Vertex:", end)
+    print("Wanted : ",start," -> ",end)
+    print("Shortest Path : ", end="")
+    print_shortest_path(path, start_idx, end_idx, vertex)
